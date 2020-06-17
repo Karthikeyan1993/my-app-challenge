@@ -1,0 +1,42 @@
+<div class="form-group has-search row col-sm-12 col-md-4 col-lg-4">
+  <span class="fa fa-search form-control-feedback"></span>
+  <input [(ngModel)]="searchTerm" class="form-control custom-height" placeholder="Search by {{searchBy}}" type="search">
+</div>
+<div class="table-responsive">
+  <table class="table table-dark">
+    <thead>
+    <tr>
+      <th (click)="doSorting(col.prop)" *ngFor="let col of dataColumnDefs" [ngStyle]="{'width.%':col.width}">
+        <span [innerHTML]="col.displayName" class="data-col-name"></span>
+        <span [ngClass]="getSortClass(col.prop)" class="pl-2 fa sort-icon"></span>
+      </th>
+    </tr>
+    </thead>
+  </table>
+</div>
+
+<cdk-virtual-scroll-viewport [ngStyle]="{'height.px':height}" itemSize="50">
+  <div class="table-responsive">
+    <table class="table table-hover table-dark">
+      <tbody>
+      <ng-container *ngTemplateOutlet="dataList.length>0 ? hasData : hasNoData"></ng-container>
+      <ng-template #hasData>
+        <tr *cdkVirtualFor="let data of dataList | dataSort:orderBy:prop | dataFilter:searchTerm:searchBy">
+          <td *ngFor="let col of dataColumnDefs" [ngStyle]="{'width.%':col.width}">
+            <span [innerHTML]="data[col.prop]" class="data-vale"></span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #hasNoData>
+        <tr>
+          <td class="text-center" [attr.colspan]="dataColumnDefs.length">No Data Found</td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </table>
+  </div>
+</cdk-virtual-scroll-viewport>
+
+
+
+

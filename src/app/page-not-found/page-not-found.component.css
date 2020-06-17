@@ -1,0 +1,9 @@
+.container-center {
+  max-width: 400px;
+  margin: 2% auto 0;
+  padding: 20px;
+}
+
+.container-center.lg {
+  max-width: 800px;
+}
